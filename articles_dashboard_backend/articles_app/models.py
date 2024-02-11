@@ -12,11 +12,14 @@ class Articles(models.Model):
     region = models.CharField(max_length=100)
     start_year = models.IntegerField(blank=True, null=True)
     impact = models.TextField()
-    added=models.DateTimeField(blank=True, null=True)
-    published = models.DateTimeField(blank=True, null=True)
+    added=models.DateField(blank=True, null=True)
+    published = models.DateField(blank=True, null=True)
     country = models.CharField(max_length=100)
     relevance = models.IntegerField(blank=True, null=True)
     pestle = models.CharField(max_length=100)
-    source = models.CharField(max_length=100)
+    source = models.TextField()
     title = models.TextField(max_length=100)
     likelihood = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
