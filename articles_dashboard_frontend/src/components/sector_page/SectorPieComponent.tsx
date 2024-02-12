@@ -1,9 +1,14 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import useSectorPieComponent from "./useSectorPieComponent";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function SectorPieComponent() {
+
+  const { each_sector_related_articles_count, error, isLoading } =
+    useSectorPieComponent();
+
   const Sector = [
     "Aerospace & defence",
     "Automotive",
@@ -26,11 +31,11 @@ export function SectorPieComponent() {
   ];
 
   const data = {
-    labels: Sector,
+    labels: each_sector_related_articles_count?.Data.map((sector)=>sector.sector),
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3,1,1,1,1,1,1,1,1,1,1,1],
+        data: each_sector_related_articles_count?.Data.map((sector)=>sector.count),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

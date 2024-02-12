@@ -41,11 +41,11 @@ def get_sectors_count(request):
         "Water",
     ]
 
-    response={}
+    response=[]
 
-    for sector in Sectors:
-        each_sector_count=articles.filter(sector=sector).count()
-        response[sector]=each_sector_count
+    for sector in range(len(Sectors)):
+        each_sector_count=articles.filter(sector=Sectors[sector]).count()
+        response.append({"sector":Sectors[sector],"count":each_sector_count})
 
     return JsonResponse({"Data": response})
 
