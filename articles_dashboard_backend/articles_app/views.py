@@ -16,3 +16,38 @@ def get_articles_count(request):
     return JsonResponse({"Data":{"records_count":records_count}})
  
 
+@api_view(['GET'])
+def get_sectors_count(request):
+    articles = Articles.objects.all()
+
+    Sectors = [
+        "Aerospace & defence",
+        "Automotive",
+        "Construction",
+        "Energy",
+        "Environment",
+        "Financial services",
+        "Food & agriculture",
+        "Government",
+        "Healthcare",
+        "Information Technology",
+        "Manufacturing",
+        "Media & entertainment",
+        "Retail",
+        "Security",
+        "Support services",
+        "Tourism & hospitality",
+        "Transport",
+        "Water",
+    ]
+
+    response={}
+
+    for sector in Sectors:
+        each_sector_count=articles.filter(sector=sector).count()
+        response[sector]=each_sector_count
+
+    return JsonResponse({"Data": response})
+
+
+
