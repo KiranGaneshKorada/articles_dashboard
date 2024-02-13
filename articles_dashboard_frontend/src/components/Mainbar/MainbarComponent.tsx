@@ -4,7 +4,7 @@ import { SectorPieComponent } from "./sector_page/SectorPieComponent";
 const MainbarComponent = () => {
   return (
     <div className="col m-0 p-0">
-      <div className="container-fluid">
+      <div className="container w-50">
         <h4>Sector Related Info</h4>
         <SectorPieComponent />
       </div>
