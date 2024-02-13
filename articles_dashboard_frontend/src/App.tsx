@@ -11,7 +11,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="row container-fluid m-0 p-0">
         <div className="col-2 border-end"><SidebarComponent/></div>
-        <div className="col border-start"><MainbarComponent/></div>
+        <div className="col-10 border-start"><MainbarComponent/></div>
       </div>
     </QueryClientProvider>
   );

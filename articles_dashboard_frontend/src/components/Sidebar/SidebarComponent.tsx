@@ -1,6 +1,6 @@
 const SidebarComponent = () => {
   return (
-    <div>
+    <div className="">
       <nav className="navbar navbar-css">
         <div className="container-fluid">
           <a className="navbar-brand navbar-anchor-css" href="#">
