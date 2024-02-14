@@ -21,5 +21,10 @@ class Articles(models.Model):
     title = models.TextField(max_length=100)
     likelihood = models.IntegerField(blank=True, null=True)
 
+
+    @property
+    def articles_year(self):
+        return self.published.strftime('%Y')
+
     def __str__(self):
         return self.title

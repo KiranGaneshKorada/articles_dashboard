@@ -50,12 +50,12 @@ def get_sectors_count(request):
 def get_topic_count(request):
     articles = Articles.objects.all()
 
-    response = []
+    response = [['Topic','Count']]
 
     for topic in range(len(Topics)):
         each_topic_count = articles.filter(topic=Topics[topic]).count()
         response.append(
-            {"topic": Topics[topic], "count": each_topic_count})
+            [ Topics[topic], each_topic_count])
 
     return JsonResponse({"Data": response})
 
@@ -84,5 +84,41 @@ def get_numeric_analysis(request):
         # each_sector_count = list(each_sector_count)
         response.append(
             {"sector": Sectors[sector], "count": each_sector_count})
+
+    return JsonResponse({"Data": response})
+
+
+@api_view(['GET'])
+def get_published_records_per_year(request):
+    articles = Articles.objects.all().dates('published','year')
+
+    year_count=[["Year","News"],]
+
+    for years in articles:
+        count=Articles.objects.filter(published__year=years.year).count()
+        year_count.append([str(years.year),count])
+
+    print(year_count)
+
+    return JsonResponse({"Data": year_count})
+
+
+@api_view(['GET'])
+def get_countries_count(request):
+    countries = Articles.objects.values_list('country',flat=True).distinct()
+
+
+    countries=list(countries)
+
+    if("" in countries):
+        countries.remove("")
+
+    response = [["Country","news"],]
+
+    for country in range(len(countries)):
+        each_countries_count = Articles.objects.filter(
+            country=countries[country]).count()
+        response.append(
+            [countries[country], each_countries_count])
 
     return JsonResponse({"Data": response})
