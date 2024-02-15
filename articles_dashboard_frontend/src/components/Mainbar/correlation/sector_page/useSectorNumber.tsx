@@ -1,22 +1,22 @@
 import { useQuery } from "react-query";
-import baseApiUrl from "../../../backend_api/baseurl";
+import baseApiUrl from "../../../../backend_api/baseurl";
 
 interface SectorNumberComponent {
   Data: {
     sector: string;
     count: {
-      "intensity__max": number,
-      "intensity__avg": number,
-      "intensity__min": number,
-      "impact__max": number,
-      "impact__avg": number,
-      "impact__min": number,
-      "relevance__max": number,
-      "relevance__avg": number,
-      "relevance__min": number,
-      "likelihood__max": number,
-      "likelihood__avg": number,
-      "likelihood__min": number,
+      intensity__max: number;
+      intensity__avg: number;
+      intensity__min: number;
+      impact__max: number;
+      impact__avg: number;
+      impact__min: number;
+      relevance__max: number;
+      relevance__avg: number;
+      relevance__min: number;
+      likelihood__max: number;
+      likelihood__avg: number;
+      likelihood__min: number;
     };
   }[];
 }

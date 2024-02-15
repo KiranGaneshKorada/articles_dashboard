@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import baseApiUrl from "../../../backend_api/baseurl";
+import baseApiUrl from "../../../../backend_api/baseurl";
 
 interface StackedBarComponent {
   Data: [string, { intensity__avg: number }][];

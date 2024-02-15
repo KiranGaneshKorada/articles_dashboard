@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import baseApiUrl from "../../../backend_api/baseurl";
+import baseApiUrl from "../../../../backend_api/baseurl";
 
 interface CountryCountComponent {
   Data: [string, number][];
