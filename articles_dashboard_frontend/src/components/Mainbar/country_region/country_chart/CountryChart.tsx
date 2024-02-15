@@ -5,32 +5,57 @@ const CountryChart = () => {
     const{country_count,error,isLoading}=useCountryCount()
     const data = country_count?.Data
     const options = {
-      colorAxis: { colors: ["#00853f",  "#e31b23","black","blue","orange","green","violet"] },
-    //   datalessRegionColor: "#f8bbd0",
-    //   defaultColor: "#f5f5f5",
+      colorAxis: {
+        colors: [
+          "orange",
+          "blue",
+          "red",
+          "green",
+          "yellow",
+          "pink",
+          "violet",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+          "gray",
+        ],
+      },
     };
   return (
-    <Chart
-      chartEvents={[
-        {
-          eventName: "select",
-          callback: ({ chartWrapper }) => {
-            const chart = chartWrapper.getChart();
-            const selection = chart.getSelection();
-            if (selection.length === 0) return;
-            if(data!=undefined){
-            const region = data[selection[0].row + 1];
-            console.log("Selected : " + region);
-            }
+    <>
+      {error && <p>Error Occured</p>}
+      {isLoading && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      <Chart
+        chartEvents={[
+          {
+            eventName: "select",
+            callback: ({ chartWrapper }) => {
+              const chart = chartWrapper.getChart();
+              const selection = chart.getSelection();
+              if (selection.length === 0) return;
+              if (data != undefined) {
+                const region = data[selection[0].row + 1];
+                console.log("Selected : " + region);
+              }
+            },
           },
-        },
-      ]}
-      chartType="GeoChart"
-      width="100%"
-      height="400px"
-      data={data}
-      options={options}
-    />
+        ]}
+        chartType="GeoChart"
+        width="100%"
+        height="400px"
+        data={data}
+        options={options}
+      />
+    </>
   );
 }
 

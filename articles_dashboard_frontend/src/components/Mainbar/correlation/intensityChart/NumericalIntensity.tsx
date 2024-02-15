@@ -9,8 +9,8 @@ export function NumericalIntensity() {
     const {each_topic_count,error,isLoading}=useBubbleChart()
     const options = {
       title:
-        "Correlation between life expectancy, fertility rate " +
-        "and population of some world countries (2010)",
+        "Correlation between life Intensity, Imapct " +
+        "and  Relevance of Articles",
       hAxis: { title: "Intensity" },
       vAxis: { title: "Impact" },
       bubble: { textStyle: { fontSize: 11 } },
@@ -26,12 +26,20 @@ export function NumericalIntensity() {
     // ];
 
   return (
-    <Chart
-      chartType="BubbleChart"
-      width="100%"
-      height="500px"
-      data={data}
-      options={options}
-    />
+    <>
+      {error && <p>Error Occured</p>}
+      {isLoading && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      <Chart
+        chartType="BubbleChart"
+        width="100%"
+        height="500px"
+        data={data}
+        options={options}
+      />
+    </>
   );
 }

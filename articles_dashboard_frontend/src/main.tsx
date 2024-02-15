@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorComponent />,
     children: [
       {
+        path: "",
+        element: <CountryRegion />,
+      },
+      {
         path: "country_region",
         element: <CountryRegion />,
       },

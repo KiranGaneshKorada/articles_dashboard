@@ -10,24 +10,32 @@ export function StackedBarComponent() {
     console.log(data)
 
     const options = {
-      title: "Population of Largest U.S. Cities",
+      title: "",
       chartArea: { width: "50%" },
       isStacked: true,
       hAxis: {
-        title: "Total Population",
+        title: "Articles",
         minValue: 0,
       },
       vAxis: {
-        title: "City",
+        title: "Regions",
       },
     };
   return (
-    <Chart
-      chartType="BarChart"
-      width="100%"
-      height="400px"
-      data={data}
-      options={options}
-    />
+    <>
+      {error && <p>Error Occured</p>}
+      {isLoading && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      <Chart
+        chartType="BarChart"
+        width="100%"
+        height="400px"
+        data={data}
+        options={options}
+      />
+    </>
   );
 }
