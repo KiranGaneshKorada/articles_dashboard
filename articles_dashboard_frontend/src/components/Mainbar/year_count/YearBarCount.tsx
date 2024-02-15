@@ -9,12 +9,13 @@ const YearBarCount = () => {
     const options = {
       chart: {
         title: "Published articles throught year",
-        subtitle: "Year, Publication count ",
+        curveType: "function",
+        legend: { position: "bottom" },
       },
     };
   return (
     <Chart
-      chartType="Bar"
+      chartType="LineChart"
       width="100%"
       height="400px"
       data={data}

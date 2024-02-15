@@ -4,66 +4,44 @@ from rest_framework.decorators import api_view
 from .models import Articles
 from django.db.models import Min, Avg, Max
 
-# Create your views here.
-
-Sectors = [
-    "Aerospace & defence",
-    "Automotive",
-    "Construction",
-    "Energy",
-    "Environment",
-    "Financial services",
-    "Food & agriculture",
-    "Government",
-    "Healthcare",
-    "Information Technology",
-    "Manufacturing",
-    "Media & entertainment",
-    "Retail",
-    "Security",
-    "Support services",
-    "Tourism & hospitality",
-    "Transport",
-    "Water",
-]
-
-Topics= ["3D", "administration", "agriculture", "aquaculture", "artificial intelligence", "asylum", "automaker", "bank", "battery", "biofuel", "brexit", "building", "business", "capital", "car", "carbon", "change", "city", "climate", "climatechange", "clothing", "coal", "communication", "consumer", "consumption", "crisis", "data", "debt", "demand", "economic", "economic growth", "economy", "election", "electricity", "emission", "energy", "export", "factory", "farm", "finance", "food", "fossil fuel", "fracking", "gamification", "gas", "gasoline", "gdp", "government",
-         "greenhouse gas", "growth", "ice", "industry", "inflation", "information", "infrastructure", "interest rate", "investment", "market", "material", "money", "nuclear", "oil", "peak oil", "plastic", "policy", "politics", "pollution", "population", "power", "production", "resource", "revenue", "risk", "robot", "security", "shale gas", "shortage", "software", "storm", "strategy", "tax", "technology", "tension", "terrorism", "tourist", "trade", "transport", "transportation", "unemployment", "vehicle", "war", "Washington", "water", "wealth", "work", "worker", "workforce"]
-
 
 
 @api_view(['GET'])
-def get_sectors_count(request):
+def get_field_count(request):
     articles = Articles.objects.all()
 
-    response = []
-
-    for sector in range(len(Sectors)):
-        each_sector_count = articles.filter(sector=Sectors[sector]).count()
-        response.append(
-            {"sector": Sectors[sector], "count": each_sector_count})
-
-    return JsonResponse({"Data": response})
+    filter_field=request.query_params.get("field")
 
 
-@api_view(['GET'])
-def get_topic_count(request):
-    articles = Articles.objects.all()
+    field_list=articles.values_list(f"{filter_field}",flat=True).distinct()
 
-    response = [['Topic','Count']]
+    field_list=list(field_list)
 
-    for topic in range(len(Topics)):
-        each_topic_count = articles.filter(topic=Topics[topic]).count()
-        response.append(
-            [ Topics[topic], each_topic_count])
+    if("" in field_list):
+        field_list.remove("")
 
-    return JsonResponse({"Data": response})
+    response=[[filter_field,"number of articles"],]
+    
+
+    for each_item in field_list:
+        print(each_item,filter_field)
+        each_count=articles.filter(**{filter_field:each_item}).count()
+        response.append([each_item,each_count])
+
+    return JsonResponse({'Data':response})
 
 
 @api_view(['GET'])
 def get_numeric_analysis(request):
     articles = Articles.objects.all()
     response = []
+
+    Sectors = articles.values_list("sector", flat=True).distinct()
+
+    Sectors = list(Sectors)
+
+    if ("" in Sectors):
+        Sectors.remove("")
 
     for sector in range(len(Sectors)):
         # each_sector_count = articles.filter(sector=Sectors[sector]).values_list('intensity','impact','relevance','likelihood')
@@ -84,6 +62,50 @@ def get_numeric_analysis(request):
         # each_sector_count = list(each_sector_count)
         response.append(
             {"sector": Sectors[sector], "count": each_sector_count})
+
+    return JsonResponse({"Data": response})
+
+
+@api_view(['GET'])
+def get_numeric_analysis_buble(request):
+    articles = Articles.objects.all()
+    response = [["ID",{"intensity__avg": "Intensity", "impact__avg": "Impact","likelihood__avg": "Likelihood"}],]
+
+    topics = Articles.objects.values_list('topic', flat=True).distinct()
+
+    topics = list(topics)
+
+    if ("" in topics):
+        topics.remove("")
+
+    for topic in topics:
+        each_topic = articles.filter(topic=topic).aggregate(
+            Avg('intensity'), Avg('impact'), Avg('likelihood'))
+        
+        response.append([topic,each_topic])
+
+   
+
+    return JsonResponse({"Data": response})
+
+
+@api_view(['GET'])
+def get_intensity_vs_region(request):
+    articles = Articles.objects.all()
+    response = [["Region",{"intensity__avg":"Intensity"}],]
+
+    regions = Articles.objects.values_list('region', flat=True).distinct()
+
+    regions = list(regions)
+
+    if ("" in regions):
+        regions.remove("")
+
+    for region in regions:
+        each_topic = articles.filter(region=region).aggregate(
+            Avg('intensity'))
+
+        response.append([region, each_topic])
 
     return JsonResponse({"Data": response})
 
